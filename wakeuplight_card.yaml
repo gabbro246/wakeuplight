@@ -1,0 +1,58 @@
+# name: Wakeup Light
+# author: Gabriel
+# version: 20250216
+# description: >
+#   dashboard card to control `gabriel/wakeuplight.yaml`
+#   requirements: `nerwyn/service-call-tile-feature`
+
+features:
+  - type: custom:service-call
+    entries:
+      - type: spinbox
+        entity_id: input_datetime.wakeuplight_time
+        range:
+          - 0
+          - 86399
+        tap_action:
+          action: perform-action
+          target:
+            entity_id:
+              - input_datetime.wakeuplight_time
+          perform_action: input_datetime.set_datetime
+          data:
+            time: "{{ value // 3600 }}:{{ (value % 3600) // 60 }}:00"
+        step: 900
+        label: >-
+          {{ value // 3600 }}:{% if (value % 3600) // 60 < 10 %}0{% endif %}{{
+          (value % 3600) // 60 }}
+        value_attribute: timestamp
+    styles: |-
+      :host {
+        {% if states('input_text.wakeuplight_state')[0] | int(default=-1) != -1 %}
+        --background: var(--feature-color);
+        {% endif %}
+      }
+type: tile
+entity: input_text.wakeuplight_state
+vertical: true
+grid_options:
+  rows: 3
+  columns: 4
+name: Aufwachlicht
+icon: mdi:alarm
+show_entity_picture: false
+hide_state: false
+icon_tap_action:
+  action: perform-action
+  perform_action: input_boolean.toggle
+  target:
+    entity_id: input_boolean.wakeuplight_switch
+  data: {}
+tap_action:
+  action: more-info
+  entity: input_datetime.wakeuplight_time
+state_content: state
+hold_action:
+  action: navigate
+  navigation_path: /config/automation/edit/1738936172867
+color: accent

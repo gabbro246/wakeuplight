@@ -1,0 +1,170 @@
+blueprint:
+  name: Wakeup Light
+  author: Gabriel
+# version: 20250216
+  description: >
+    Gradually increases light brightness over a set duration before the wake-up time.
+
+    Before you can use this blueprint you need to:
+      - Create an `input_datetime.wakeuplight_time` used to set the alarm time.
+      - Create an `input_boolean.wakeuplight_switch` used to tun the alarm on/off.
+      - Create an `input_text.wakeuplight_state` used to show the state on the dashboard.
+
+    For the card install `nerwyn/service-call-tile-feature` and add `gabriel/wakeuplight_card.yaml` to your dashboard.
+
+#   Future improvements:
+#     - only execute every minute while the switch is not turned off
+
+  domain: automation
+
+  input:
+    time:
+      name: Alarm Time Helper
+      description: Time when the light reaches full brightness.
+      selector:
+        entity:
+          domain: input_datetime
+
+    switch:
+      name: Alarm Switch Helper
+      description: Enables or disables the wake-up light.
+      selector:
+        entity:
+          domain: input_boolean
+
+    state:
+      name: Alarm State Helper
+      description: Stores the alarm status.
+      selector:
+        entity:
+          domain: input_text
+
+    light:
+      name: Light Entity
+      description: The light to be used for the wake-up sequence.
+      selector:
+        target:
+          entity:
+            domain: light
+
+    brightness_pct:
+      name: End Brightness
+      description: Maximum brightness when the wake-up sequence is complete.
+      default: 100
+      selector:
+        number:
+          min: 0
+          max: 100
+          step: 5
+          unit_of_measurement: "%"
+
+    duration:
+      name: Fade-in Duration
+      description: Time over which brightness increases.
+      default: 25
+      selector:
+        number:
+          min: 0
+          max: 60
+          step: 5
+          unit_of_measurement: "min"
+
+    action:
+      name: Alarm Action
+      description: Defines an optional action to be executed at the alarm time.
+      default: []
+      selector:
+        action: null
+
+trigger:
+  - platform: time_pattern
+    minutes: "*"
+  - platform: state
+    entity_id: !input 'time'
+  - platform: state
+    entity_id: !input 'switch'
+
+variables:
+  time: !input 'time'
+  switch: !input 'switch'
+  state: !input 'state'
+  light: !input 'light'
+  brightness_pct: !input 'brightness_pct'
+  duration: !input 'duration'
+  brightness: >
+    {{ (brightness_pct | int * 255) // 100 }}
+  brightness_step: >
+    {{ (brightness -1) // (duration) }}
+  time_remaining: >
+    {% set time = states(time) %}
+    {% set alarm_dt = today_at(time) %}
+    {% if alarm_dt < (now() - timedelta(minutes=1)) %}
+      {% set alarm_dt = alarm_dt + timedelta(days=1) %}
+    {% endif %}
+    {% set delta = alarm_dt - (now() - timedelta(minutes=1)) %}
+    {{ delta.total_seconds() // 60 }}
+
+#condition:
+#  - condition: state
+#    entity_id: !input 'switch'
+#    state: "on"
+
+action:
+
+  # set state
+  - service: input_text.set_value
+    target:
+      entity_id: "{{ state }}"
+    data:
+      value: >
+        {% set hours = (time_remaining // 60) | int %}
+        {% set minutes = (time_remaining % 60) %}
+        {% if is_state(switch, "off") %}
+          off
+        {% elif time_remaining == 0 %}
+          Alarm! 🚨
+        {% elif time_remaining >= 720 %}
+          alarm at {{ states(time)[:5] }}
+        {% elif time_remaining > duration %}
+          alarm in {{ hours }}:{{ '%02d' % minutes }}
+        {% else %}
+          {{ '%2d' % minutes }} min. left
+        {% endif %}
+
+  - choose:
+    # start
+    - conditions:
+      - "{{ duration > 0 }}"
+      - "{{ time_remaining == duration }}"
+      - "{{ is_state(switch, 'on') }}"
+      sequence:
+        - service: light.turn_on
+          target: "{{ light }}"
+          data:
+            brightness: 1
+    # interpolation
+    - conditions:
+      - "{{ duration > 0 }}"
+      - "{{ time_remaining < duration }}"
+      - "{{ time_remaining > 0 }}"
+      - "{{ is_state(switch, 'on') }}"
+      sequence:
+        - service: light.turn_on
+          target: "{{ light }}"
+          data:
+            brightness: "{{ (brightness_step * (duration - time_remaining) + 1) | int }}"
+            # brightness_step: "{{ brightness_step }}"
+            transition: 30
+    # alarm
+    - conditions:
+      - "{{ time_remaining == 0 }}"
+      - "{{ is_state(switch, 'on') }}"
+      sequence:
+        - service: light.turn_on
+          target: "{{ light }}"
+          data:
+            brightness: "{{ brightness }}"
+            transition: 30
+        - choose:
+            - conditions: []
+              sequence: !input action
