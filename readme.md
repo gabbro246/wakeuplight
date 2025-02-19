@@ -30,5 +30,5 @@
 4. Enjoy a smooth wake-up experience with your Home Assistant smart light setup!
 
 ## Quick Import
-[![Open your Home Assistant instance and start setting up this blueprint.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=[https://raw.githubusercontent.com/246otters/wakeuplight/refs/heads/main/wakeuplight.yaml?token=GHSAT0AAAAAAC6TJQVNLACJM6HY5M6SDLVMZ5V7DVA])
+[![Open your Home Assistant instance and start setting up this blueprint.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/246otters/wakeuplight/refs/heads/main/wakeuplight.yaml)
 
