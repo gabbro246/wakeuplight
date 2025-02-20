@@ -1,6 +1,7 @@
 # Wakeup Light Blueprint with Dashboard Card
 
 Wakeup Light gradually increases the brightness of a selected lights over a set period, simulating a sunrise to make waking up more natural and comfortable. It is designed to start dim and reach full brightness at the configured alarm time. Additionally, an optional action can be executed when the alarm triggers. This blueprint provides a smooth and non-intrusive way to wake up, reducing the abruptness of traditional alarms.
+Inspired by: sbyx/wake-up-light-alarm-with-sunrise-effect
 
 ![dashboard](assets/dashboard.png)
 
