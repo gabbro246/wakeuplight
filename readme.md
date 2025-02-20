@@ -2,6 +2,8 @@
 
 Wakeup Light gradually increases the brightness of a selected lights over a set period, simulating a sunrise to make waking up more natural and comfortable. It is designed to start dim and reach full brightness at the configured alarm time. Additionally, an optional action can be executed when the alarm triggers. This blueprint provides a smooth and non-intrusive way to wake up, reducing the abruptness of traditional alarms.
 
+![dashboard](assets/dashboard.png)
+
 [![Open your Home Assistant instance and start setting up this blueprint.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/246otters/wakeuplight/refs/heads/main/wakeuplight.yaml?token=GHSAT0AAAAAAC6TJQVMG6ZZKTZKF6VAMW4AZ5V7I5A)
 
 ## Inputs
