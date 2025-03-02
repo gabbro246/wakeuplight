@@ -1,9 +1,6 @@
 blueprint:
   name: Wakeup Light phone
-  description: ""
-
   domain: automation
-  mode: single
 
   input:
 
@@ -19,36 +16,36 @@ blueprint:
         device:
           integration: mobile_app
 
-  trigger:
-    - trigger: state
-      entity_id: input_datetime.wakeuplight_time
+trigger:
+  - platform: state
+    entity_id: input_datetime.wakeuplight_time
 
-  condition: []
+condition: []
 
-  variables:
-    alarm_hour: "{{ states('input_datetime.wakeuplight_time').split(':')[0] | int }}"
-    alarm_minute: "{{ states('input_datetime.wakeuplight_time').split(':')[1] | int }}"
+variables:
+  alarm_hour: "{{ states('input_datetime.wakeuplight_time').split(':')[0] | int }}"
+  alarm_minute: "{{ states('input_datetime.wakeuplight_time').split(':')[1] | int }}"
 
-  action:
+action:
 
-    - service: notify.mobile_app_sm_s911b
+  - service: notify.mobile_app_sm_s911b
+    data:
+      message: command_activity
       data:
-        message: command_activity
-        data:
-          intent_package_name: com.google.android.deskclock
-          intent_action: android.intent.action.DISMISS_ALARM
+        intent_package_name: com.google.android.deskclock
+        intent_action: android.intent.action.DISMISS_ALARM
 
-    - service: notify.mobile_app_sm_s911b
+  - service: notify.mobile_app_sm_s911b
+    data:
+      message: command_activity
       data:
-        message: command_activity
-        data:
-          intent_package_name: com.google.android.deskclock
-          intent_action: android.intent.action.SET_ALARM
-          intent_extras: >-
-            android.intent.extra.alarm.HOUR:{{ alarm_hour
-            }},android.intent.extra.alarm.MINUTES:{{ alarm_minute
-            }},android.intent.extra.alarm.MESSAGE:Wakeuplight
+        intent_package_name: com.google.android.deskclock
+        intent_action: android.intent.action.SET_ALARM
+        intent_extras: >-
+          android.intent.extra.alarm.HOUR:{{ alarm_hour
+          }},android.intent.extra.alarm.MINUTES:{{ alarm_minute
+          }},android.intent.extra.alarm.MESSAGE:Wakeuplight
 
-    - service: notify.mobile_app_sm_s911b
-      data:
-        message: Alarm time changed to {{ alarm_hour }}:{{ alarm_minute }}
+  - service: notify.mobile_app_sm_s911b
+    data:
+      message: Alarm time changed to {{ alarm_hour }}:{{ alarm_minute }}
