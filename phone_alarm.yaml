@@ -1,0 +1,54 @@
+blueprint:
+  name: Wakeup Light phone
+  description: ""
+
+  domain: automation
+  mode: single
+
+  input:
+
+    time:
+      name: Alarm Time Helper
+      selector:
+        entity:
+          domain: input_datetime
+
+    device:
+      name: Android Device
+      selector:
+        device:
+          integration: mobile_app
+
+  triggers:
+    - trigger: state
+      entity_id: input_datetime.wakeuplight_time
+
+  conditions: []
+
+  variables:
+    alarm_hour: "{{ states('input_datetime.wakeuplight_time').split(':')[0] | int }}"
+    alarm_minute: "{{ states('input_datetime.wakeuplight_time').split(':')[1] | int }}"
+
+  actions:
+
+    - action: notify.mobile_app_sm_s911b
+      data:
+        message: command_activity
+        data:
+          intent_package_name: com.google.android.deskclock
+          intent_action: android.intent.action.DISMISS_ALARM
+
+    - action: notify.mobile_app_sm_s911b
+      data:
+        message: command_activity
+        data:
+          intent_package_name: com.google.android.deskclock
+          intent_action: android.intent.action.SET_ALARM
+          intent_extras: >-
+            android.intent.extra.alarm.HOUR:{{ alarm_hour
+            }},android.intent.extra.alarm.MINUTES:{{ alarm_minute
+            }},android.intent.extra.alarm.MESSAGE:Wakeuplight
+
+    - action: notify.mobile_app_sm_s911b
+      data:
+        message: Alarm time changed to {{ alarm_hour }}:{{ alarm_minute }}

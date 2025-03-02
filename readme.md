@@ -24,3 +24,9 @@ Inspired by: sbyx/wake-up-light-alarm-with-sunrise-effect
 - Create an `input_text.wakeuplight_state` used to show the state on the dashboard.
 - Set up the blueprint in your automations.
 - For the card install `nerwyn/service-call-tile-feature` and add `wakeuplight_card.yaml` to your dashboard.
+
+---
+
+for phone alarm
+- only one alarm can be set, otherwise ha cant dismiss it
+
