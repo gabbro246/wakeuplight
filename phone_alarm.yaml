@@ -47,5 +47,3 @@ action:
   - service: notify.mobile_app_sm_s911b
     data:
       message: Alarm time changed to {{ alarm_hour }}:{{ alarm_minute }}
-
-mode: restart
