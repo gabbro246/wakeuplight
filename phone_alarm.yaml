@@ -2,25 +2,23 @@ blueprint:
   name: Wakeup Light phone
   domain: automation
 
-  input:
+#  input:
 
-    time:
-      name: Alarm Time Helper
-      selector:
-        entity:
-          domain: input_datetime
+#    time:
+#      name: Alarm Time Helper
+#      selector:
+#        entity:
+#          domain: input_datetime
 
-    device:
-      name: Android Device
-      selector:
-        device:
-          integration: mobile_app
+#    device:
+#      name: Android Device
+#      selector:
+#        device:
+#          integration: mobile_app
 
 trigger:
   - platform: state
     entity_id: input_datetime.wakeuplight_time
-
-condition: []
 
 variables:
   alarm_hour: "{{ states('input_datetime.wakeuplight_time').split(':')[0] | int }}"
