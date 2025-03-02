@@ -1,49 +1,45 @@
 blueprint:
-  name: Wakeup Light phone
   domain: automation
+  name: Wakeup Light Android
 
-#  input:
+  input:
 
-#    time:
-#      name: Alarm Time Helper
-#      selector:
-#        entity:
-#          domain: input_datetime
+    time:
+      name: Alarm Time Helper
+      selector:
+        entity:
+          domain: input_datetime
 
-#    device:
-#      name: Android Device
-#      selector:
-#        device:
-#          integration: mobile_app
+    device:
+      name: Android Device
+      selector:
+        device:
+          integration: mobile_app
+
+mode: restart
+max_exceeded: silent
 
 trigger:
   - platform: state
-    entity_id: input_datetime.wakeuplight_time
+    entity_id: !input time
 
 variables:
+  time: !input time
   alarm_hour: "{{ states('input_datetime.wakeuplight_time').split(':')[0] | int }}"
   alarm_minute: "{{ states('input_datetime.wakeuplight_time').split(':')[1] | int }}"
 
+
 action:
 
-  - service: notify.mobile_app_sm_s911b
+  - alias: "Set Alarm"
+    domain: mobile_app
+    type: notify
+    message: command_activity
+    device_id: !input device
     data:
-      message: command_activity
-      data:
-        intent_package_name: com.google.android.deskclock
-        intent_action: android.intent.action.DISMISS_ALARM
+      intent_package_name: com.google.android.deskclock
+      intent_action: android.intent.action.SET_ALARM
+      intent_extras: android.intent.extra.alarm.HOUR:{{alarm_hour}},android.intent.extra.alarm.MINUTES:{{alarm_minute}},android.intent.extra.alarm.MESSAGE:Wakeuplight
 
-  - service: notify.mobile_app_sm_s911b
-    data:
-      message: command_activity
-      data:
-        intent_package_name: com.google.android.deskclock
-        intent_action: android.intent.action.SET_ALARM
-        intent_extras: >-
-          android.intent.extra.alarm.HOUR:{{ alarm_hour
-          }},android.intent.extra.alarm.MINUTES:{{ alarm_minute
-          }},android.intent.extra.alarm.MESSAGE:Wakeuplight
 
-  - service: notify.mobile_app_sm_s911b
-    data:
-      message: Alarm time changed to {{ alarm_hour }}:{{ alarm_minute }}
+  
