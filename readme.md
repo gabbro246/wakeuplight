@@ -30,3 +30,4 @@ Inspired by: sbyx/wake-up-light-alarm-with-sunrise-effect
 for phone alarm
 - only one alarm can be set, otherwise ha cant dismiss it
 
+[![Open your Home Assistant instance and start setting up this blueprint.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/gabbro246/wakeuplight/refs/heads/main/phone_alarm.yaml?token=GHSAT0AAAAAAC7K6OWM3DH3Z4EKTK7SSHM4Z6EG2LA)
