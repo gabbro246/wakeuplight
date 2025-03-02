@@ -31,3 +31,8 @@ for phone alarm
 - only one alarm can be set, otherwise ha cant dismiss it
 
 [![Open your Home Assistant instance and start setting up this blueprint.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/gabbro246/wakeuplight/refs/heads/main/phone_alarm.yaml?token=GHSAT0AAAAAAC7K6OWM3DH3Z4EKTK7SSHM4Z6EG2LA)
+
+[![Open your Home Assistant instance and start setting up this blueprint.]([https://my.home-assistant.io/badges/blueprint_import.svg](https://community-assets.home-assistant.io/original/3X/9/4/94379a79c42e3606b5b057dbd9fcf6092bb076f2.svg))](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/gabbro246/wakeuplight/refs/heads/main/phone_alarm.yaml?token=GHSAT0AAAAAAC7K6OWM3DH3Z4EKTK7SSHM4Z6EG2LA)
+
+
+<img src="https://community-assets.home-assistant.io/original/3X/9/4/94379a79c42e3606b5b057dbd9fcf6092bb076f2.svg" alt="Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled." data-base62-sha1="l9bNjxoyi8xo0apKhOqHW3afKyS" width="212" height="28" loading="lazy" style="aspect-ratio: 212 / 28;">
