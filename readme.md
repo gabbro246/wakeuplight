@@ -15,7 +15,7 @@ Inspired by: sbyx/wake-up-light-alarm-with-sunrise-effect
 | **Fade-in Duration** (`duration`) | Time in minutes over which the brightness increases. |
 | **Alarm Action** (`action`) | Optional action to execute at alarm time. |
 
-[![Open your Home Assistant instance and start setting up this blueprint.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/246otters/wakeuplight/refs/heads/main/wakeuplight.yaml?token=GHSAT0AAAAAAC6TJQVMG6ZZKTZKF6VAMW4AZ5V7I5A)
+[![Open your Home Assistant instance and start setting up this blueprint.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://github.com/gabbro246/wakeuplight/blob/main/wakeuplight.yaml)
 
 ## Installation
 - Import the blueprint to your Home Assistant instance.
